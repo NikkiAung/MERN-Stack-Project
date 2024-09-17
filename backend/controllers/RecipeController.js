@@ -1,7 +1,8 @@
 const Recipe = require('../models/Recipe');
 const RecipeController = {
-    index : (req, res) => {
-        return res.json({msg: "Get all recipes"})
+    index : async (req, res) => {
+        let recipes = await Recipe.find().sort({createAt:-1})
+        return res.json(recipes);
     },
     store : async (req, res) => {
         try {
