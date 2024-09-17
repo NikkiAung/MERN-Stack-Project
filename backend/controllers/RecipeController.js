@@ -17,8 +17,14 @@ const RecipeController = {
             return res.status(404).json({msg : 'invalid fields!'});
         }
     },
-    show : (req, res) => {
-        return res.json({msg: "get single recipe"})
+    show : async (req, res) => {
+        try {
+            let id = req.params.id;
+            let recipe = await Recipe.findById(id);
+            return res.json(recipe)
+        } catch (error) {
+            return res.status(404).json({msg: 'recipe not found!'});
+        }  
     },
     destroy : (req, res) => {
         return res.json({msg: "del recipe"})
