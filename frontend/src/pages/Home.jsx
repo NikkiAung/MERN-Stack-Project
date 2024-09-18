@@ -1,6 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 function Home() {
+  useEffect(()=> {
+    let fetchRecipes = async () => {
+      let response = await fetch('http://localhost:8000/api/recipes');
+      console.log(response);
+    }
+    fetchRecipes();
+  }, [])
   return (
     <div className='space-y-3'>
       <div className='bg-white p-5 rounded-2xl space-y-3'>

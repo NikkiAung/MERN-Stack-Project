@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const cors = require('cors')
 let morgan = require('morgan')
 const mongoose = require('mongoose')
 require('dotenv').config()
@@ -15,7 +16,7 @@ mongoose.connect(mongoURL).then(()=> {
 
 app.use(morgan('dev'));
 app.use(express.json());
-
+app.use(cors());
 app.get('/', (req, res)=> {
     return res.json({hello:'hello'})
 })
