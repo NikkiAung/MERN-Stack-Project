@@ -1,10 +1,19 @@
-import './index.css'
-
+import { Link, Outlet } from "react-router-dom"
 function App() {
 
   return (
     <>
-      <h1 className='text-3xl text-blue-50'>Hello World</h1>
+      <nav>
+        <ul>
+          <li><Link to="/home">Home</Link></li>
+          <li><Link to="/about">About</Link></li>
+          <li><Link to="/contact">Contact</Link></li>
+        </ul>
+      </nav>
+      <div>
+        <Outlet/>
+      </div>
+
     </>
   )
 }
