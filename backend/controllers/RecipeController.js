@@ -45,8 +45,22 @@ const RecipeController = {
         }
     },
     update : async (req, res) => {
-        return res.json({msg: "update recipe"});
-    },
+        try {
+            let id = req.params.id;
+            if (!mongoose.Types.ObjectId.isValid(id)) {
+                return res.status(400).json({msg : 'not a valid id'});
+            }
+            let recipe = await Recipe.findByIdAndUpdate(id, {
+                ...req.body
+            });
+            if (!recipe) {
+                return res.status(404).json({msg : 'recipe not found'});
+            }
+            return res.json(recipe);
+        } catch (error) {
+            return res.status(500).json({msg : 'internet server error'});
+        }
+    }
 }
 
 module.exports = RecipeController;
