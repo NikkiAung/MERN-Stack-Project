@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 function Navbar() {
   return (
     <div>
-        <nav className="flex justify-between items-center p-5">
+        <nav className="flex justify-between items-center p-5 bg-white">
           <div>
             <h1 className="font-bold text-2xl text-orange-400">Recipility</h1>
           </div>
