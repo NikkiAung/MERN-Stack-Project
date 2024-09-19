@@ -1,8 +1,19 @@
 import Ingredient from "./Ingredient"
-function RecipeCard({recipe}) {
+import axios from "axios"
+function RecipeCard({recipe, onDeleteFrontEnd}) {
+    const delRecipe = async () => {
+        const response = await axios.delete('http://localhost:8000/api/recipes/'+recipe._id);
+        if (response.status === 200) {
+            console.log('Recipe deleted on backend!');
+            onDeleteFrontEnd(recipe._id);
+        }
+    }
     return (
         <div key={recipe._id} className='bg-white p-5 rounded-2xl space-y-3'>
-            <h3 className='font-bold text-xl text-orange-400'>{recipe.title}</h3>
+            <div className="flex justify-between items-center">
+                <h3 className='font-bold text-xl text-orange-400'>{recipe.title}</h3>
+                <button onClick={delRecipe} className="bg-red-500 text-sm px-2 py-1 text-white rounded-full">Delete</button>
+            </div>
             <p>Description</p>
             <p>{recipe.description}</p>
             <Ingredient ingredients={recipe.ingredients}/>
