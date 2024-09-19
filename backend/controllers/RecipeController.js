@@ -2,7 +2,13 @@ const Recipe = require('../models/Recipe');
 const mongoose = require('mongoose');
 const RecipeController = {
     index : async (req, res) => {
-        let recipes = await Recipe.find().sort({createAt:-1})
+        let page = req.query.page || 1;
+        let limit = 6;
+        let recipes = await Recipe
+        .find()
+        .skip((page-1)*limit)
+        .limit(limit)
+        .sort({createAt:-1})
         return res.json(recipes);
     },
     store : async (req, res) => {
