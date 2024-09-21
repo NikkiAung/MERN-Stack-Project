@@ -1,9 +1,11 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import plus from '../assets/plus.svg'
 import Ingredient from '../components/Ingredient'
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams} from 'react-router-dom';
+
 function RecipeFrom() {
+  let { id } = useParams();
   const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -14,7 +16,22 @@ function RecipeFrom() {
     setIngredients(prev => [newIngredient,...prev]);
     setNewIngredient('');
   }
-  const createRecipe = async(e) => {
+  useEffect(()=> {
+    const fetchRecipe = async() => {
+      if(id) {
+        let res = await axios.get('http://localhost:8000/api/recipes/'+id);
+
+        if(res.status === 200) {
+          const {title, description, ingredients} = res.data;
+          setTitle(title);
+          setDescription(description);
+          setIngredients(ingredients);
+        }
+      }
+    }
+    fetchRecipe();
+  },[id])
+  const submitRecipe = async(e) => {
     try {
       e.preventDefault();
       const recipe = {
@@ -22,7 +39,11 @@ function RecipeFrom() {
         description,
         ingredients
       }
-      let res = await axios.post('http://localhost:8000/api/recipes', recipe);
+      
+      const res = id 
+      ? await axios.patch(`http://localhost:8000/api/recipes/${id}`, recipe) 
+      : await axios.post('http://localhost:8000/api/recipes', recipe);
+
       if(res.status === 200) {
         navigate('/')
       }
@@ -33,8 +54,8 @@ function RecipeFrom() {
   }
   return (
     <div className='mx-auto max-w-md border-2 border-white p-4'>
-        <h1 className='mb-6 text-xl font-bold text-orange-400 text-center'>Recipe Create Form</h1>
-        <form action="" className='space-y-5' onSubmit={createRecipe}>
+        <h1 className='mb-6 text-xl font-bold text-orange-400 text-center'>Recipe {id ? 'Update' : 'Create'} Form</h1>
+        <form action="" className='space-y-5' onSubmit={submitRecipe}>
           <ul className='list-disc pl-5'>
             {!!errors.length && errors.map((error,i) => (
               <li key={i} className='text-red-600 text-sm'>{error} is invalid value!</li>
@@ -49,7 +70,7 @@ function RecipeFrom() {
           <div>
             <Ingredient ingredients={ingredients}/>
           </div>
-          <button type='submit' className='w-full bg-orange-400 rounded-full py-1 px-3 text-white'>Create Recipe</button>
+          <button type='submit' className='w-full bg-orange-400 rounded-full py-1 px-3 text-white'>{id ? 'Update' : 'Create'} Recipe</button>
         </form>
     </div>
   )
