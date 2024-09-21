@@ -5,6 +5,7 @@ let morgan = require('morgan')
 const mongoose = require('mongoose')
 require('dotenv').config()
 const recipesRoutes = require('./routes/recipes');
+const userRoutes = require('./routes/users')
 
 let mongoURL = "mongodb+srv://anandaooit:test1234@mern-cluster.bl5c9.mongodb.net/?retryWrites=true&w=majority&appName=MERN-Cluster"
 mongoose.connect(mongoURL).then(()=> {
@@ -22,4 +23,4 @@ app.get('/', (req, res)=> {
 })
 
 app.use('/api/recipes', recipesRoutes);
-
+app.use('/api/users', userRoutes);
