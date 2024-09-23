@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const createToken = require('../helpers/createToken')
 const UserController = {
     login : (req, res) =>{
         return res.json({msg:
@@ -9,7 +10,9 @@ const UserController = {
         try {
             const {name, email, password} = req.body;
             let user = await User.register(name,email,password);
-            return res.json(user);
+            let token = createToken(user._id);
+            res.cookie('jwt',token);
+            return res.json({user,token});
         } catch (e) {
             return res.status(400).json({error : e.message});
         }
