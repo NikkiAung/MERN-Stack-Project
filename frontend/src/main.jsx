@@ -10,6 +10,7 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import SignUpForm from './pages/SignUpForm.jsx'
 
 const router = createBrowserRouter([
     {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
         {
           path: '/recipes/update/:id',
           element: <RecipeForm/>
+        },
+        {
+          path: '/signup',
+          element: <SignUpForm/>
         }
       ]
     },
