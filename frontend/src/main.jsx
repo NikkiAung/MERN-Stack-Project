@@ -11,7 +11,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import SignUpForm from './pages/SignUpForm.jsx'
-
+import SignInForm from './pages/SignInForm.jsx'
 const router = createBrowserRouter([
     {
       path: "/",
@@ -40,6 +40,10 @@ const router = createBrowserRouter([
         {
           path: '/signup',
           element: <SignUpForm/>
+        },
+        {
+          path: '/signin',
+          element: <SignInForm/>
         }
       ]
     },
