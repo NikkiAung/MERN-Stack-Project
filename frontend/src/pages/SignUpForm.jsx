@@ -24,7 +24,6 @@ function SignUpForm() {
             navigate('/')
         }
     } catch(e) {
-        console.log(e.response.data.error.email.msg);
         setError(e.response.data.error);
     }
   }

@@ -41,8 +41,7 @@ UserSchema.statics.login = async function(email,password) {
     if(!user){
         throw new Error('User does not exists!')
     }
-    console.log(user);
-    let isCorrect = bcrypt.compare(user.password, password);
+    let isCorrect = await bcrypt.compare(password,user.password);
     if (isCorrect) {
         return user
     } else {
