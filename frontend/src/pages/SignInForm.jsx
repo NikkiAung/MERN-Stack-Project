@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom"
 import axios from "../helpers/axios";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../Context/AuthContext";
 function SignInForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const { dispatch } = useContext(AuthContext);
   const submitLogin = async (e) => {
     try {
         e.preventDefault();
@@ -19,6 +21,7 @@ function SignInForm() {
             withCredentials: true
         });
         if(res.status === 200) {
+            dispatch({type : "LOGIN", payload:res.data.user});
             navigate('/');
         }
     } catch (e) {
