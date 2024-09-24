@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import RecipeCard from '../components/RecipeCard';
 import Pagination from '../components/Pagination';
 import { useLocation, useNavigate } from 'react-router-dom';
+import axios from '../helpers/axios';
 
 function Home() {
   const [recipes, setRecipes] = useState([]);
@@ -13,17 +14,18 @@ function Home() {
   page = parseInt(page);
   useEffect(()=> {
     let fetchRecipes = async () => {
-      let response = await fetch('http://localhost:8000/api/recipes?page='+page);
-      if (response.ok) {
-        let {links, data} = await response.json();
-        setLinks(links);
-        setRecipes(data);
+      let response = await axios.get('/api/recipes?page='+page); 
+      console.log(response);
+      if (response.status === 200) {
+        let data = response.data;
+        // console.log(data.data);
+        setLinks(data.links);
+        setRecipes(data.data);
         window.scroll({
           top: 0,
           left: 0,
           behavior: "smooth",
         });
-        
       }
     }
     fetchRecipes();

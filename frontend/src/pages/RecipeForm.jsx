@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import plus from '../assets/plus.svg'
 import Ingredient from '../components/Ingredient'
-import axios from 'axios';
+import axios from '../helpers/axios';
 import { useNavigate, useParams} from 'react-router-dom';
 
 function RecipeFrom() {
@@ -19,7 +19,7 @@ function RecipeFrom() {
   useEffect(()=> {
     const fetchRecipe = async() => {
       if(id) {
-        let res = await axios.get('http://localhost:8000/api/recipes/'+id);
+        let res = await axios.get('/api/recipes/'+id);
 
         if(res.status === 200) {
           const {title, description, ingredients} = res.data;
@@ -41,8 +41,8 @@ function RecipeFrom() {
       }
       
       const res = id 
-      ? await axios.patch(`http://localhost:8000/api/recipes/${id}`, recipe) 
-      : await axios.post('http://localhost:8000/api/recipes', recipe);
+      ? await axios.patch(`/api/recipes/${id}`, recipe) 
+      : await axios.post('/api/recipes', recipe);
 
       if(res.status === 200) {
         navigate('/')

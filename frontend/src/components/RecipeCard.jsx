@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import Ingredient from "./Ingredient"
-import axios from "axios"
+import axios from "../helpers/axios"
 function RecipeCard({recipe, onDeleteFrontEnd}) {
     const delRecipe = async () => {
-        const response = await axios.delete('http://localhost:8000/api/recipes/'+recipe._id);
+        const response = await axios.delete('/api/recipes/'+recipe._id);
         if (response.status === 200) {
             console.log('Recipe deleted on backend!');
             onDeleteFrontEnd(recipe._id);

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom"
-import axios from "axios";
+import axios from "../helpers/axios";
 import { useNavigate } from "react-router-dom";
 function SignInForm() {
   const [email, setEmail] = useState('');
@@ -15,7 +15,7 @@ function SignInForm() {
             email,
             password
         }
-        const res = await axios.post('http://localhost:8000/api/users/login',userInfo, {
+        const res = await axios.post('/api/users/login',userInfo, {
             withCredentials: true
         });
         if(res.status === 200) {
