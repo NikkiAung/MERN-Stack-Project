@@ -11,7 +11,7 @@ function Home() {
   const searchQuery = new URLSearchParams(location.search);
   const navigate = useNavigate();
   let page = searchQuery.get('page') || 1;
-  page = parseInt(page);
+  page = parseInt(page) ? parseInt(page) : 1;
   useEffect(()=> {
     let fetchRecipes = async () => {
       let response = await axios.get('/api/recipes?page='+page); 
