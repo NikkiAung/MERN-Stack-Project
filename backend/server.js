@@ -7,7 +7,7 @@ require('dotenv').config()
 const recipesRoutes = require('./routes/recipes');
 const userRoutes = require('./routes/users')
 let cookieParser = require('cookie-parser')
-
+const AuthMiddleware = require('./Middleware/AuthMiddleware')
 let mongoURL = "mongodb+srv://anandaooit:test1234@mern-cluster.bl5c9.mongodb.net/?retryWrites=true&w=majority&appName=MERN-Cluster"
 mongoose.connect(mongoURL).then(()=> {
     console.log('connected to db');
@@ -27,7 +27,7 @@ app.get('/', (req, res)=> {
     return res.json({hello:'hello'})
 })
 
-app.use('/api/recipes', recipesRoutes);
+app.use('/api/recipes',AuthMiddleware, recipesRoutes);
 app.use('/api/users', userRoutes);
 
 app.get('/set-cookie',(req,res)=>{
