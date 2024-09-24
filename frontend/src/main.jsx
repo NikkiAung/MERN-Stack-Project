@@ -12,6 +12,8 @@ import {
 } from "react-router-dom";
 import SignUpForm from './pages/SignUpForm.jsx'
 import SignInForm from './pages/SignInForm.jsx'
+import { AuthContextProvider } from '../Context/AuthContext.jsx'
+
 const router = createBrowserRouter([
     {
       path: "/",
@@ -51,6 +53,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
-      <RouterProvider router={router} />
+      <AuthContextProvider>
+        <RouterProvider router={router} />
+      </AuthContextProvider>
     </StrictMode>,
 )

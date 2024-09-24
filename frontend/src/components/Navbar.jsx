@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom"
-
+import { AuthContext } from "../../Context/AuthContext"
+import { useContext } from "react"
 function Navbar() {
+  const {name} = useContext(AuthContext);
+  console.log(name);
   return (
     <div>
         <nav className="flex justify-between items-center p-5 bg-white">
