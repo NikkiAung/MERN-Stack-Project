@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { Link } from "react-router-dom"
 import axios from "../helpers/axios";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../Context/AuthContext";
+import { AuthContext } from "../Context/AuthContext";
 function SignInForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
