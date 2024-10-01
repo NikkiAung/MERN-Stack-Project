@@ -82,6 +82,14 @@ const RecipeController = {
         } catch (error) {
             return res.status(500).json({msg : 'internet server error'});
         }
+    },
+    upload : (req, res) => {
+        try {
+            console.log(req.file);
+            return res.json({ image : 'uploaded'});
+        } catch (error) {
+            return res.status(500).json({msg : 'internet server error'});
+        }
     }
 }
 
