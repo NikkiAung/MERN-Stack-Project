@@ -6,6 +6,9 @@ const RecipeSchema = new schema({
         type : String,
         required : true
     }, 
+    photo : {
+        type : String
+    },
     description: {
         type : String,
         required : true
