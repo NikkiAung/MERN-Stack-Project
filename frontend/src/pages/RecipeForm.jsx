@@ -25,6 +25,7 @@ function RecipeFrom() {
 
         if(res.status === 200) {
           setPreview(import.meta.env.VITE_BACKEND_URL+res.data.photo);
+          console.log(res.data.photo);
           console.log(res);
           const {title, description, ingredients} = res.data;
           setTitle(title);

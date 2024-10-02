@@ -1,3 +1,4 @@
+import axios from "axios";
 import { createContext, useEffect, useReducer } from "react";
 
 const AuthContext = createContext();
@@ -5,10 +6,10 @@ const AuthContext = createContext();
 const AuthReducer = (state, action) => {
     switch (action.type) {
         case "LOGIN":
-            localStorage.setItem('user',JSON.stringify(action.payload));
+            // localStorage.setItem('user',JSON.stringify(action.payload));
             return { user : action.payload };
         case "LOGOUT":
-            localStorage.removeItem('user');
+            // localStorage.removeItem('user');
             return { user : null };
         default:
             return { state };
@@ -22,13 +23,15 @@ const AuthContextProvider = ({children}) => {
     });
     useEffect(()=>{
         try {
-            const user = JSON.parse(localStorage.getItem('user'));
-            console.log(user);
-            if(user) {
-                dispatch({type:"LOGIN",payload:user})
-            }else{
-                dispatch({type:"LOGOUT"})
-            }
+            // const user = JSON.parse(localStorage.getItem('user'));
+            axios.get('/api/users/me').then(res => {
+                let user = res.data;
+                if(user) {
+                    dispatch({type:"LOGIN",payload:user})
+                }else{
+                    dispatch({type:"LOGOUT"})
+                }
+            })
         } catch (e) {
             dispatch({ type: "LOGOUT" });
         }
