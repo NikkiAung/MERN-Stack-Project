@@ -9,11 +9,19 @@ const recipesRoutes = require('./routes/recipes');
 const userRoutes = require('./routes/users')
 let cookieParser = require('cookie-parser')
 const AuthMiddleware = require('./Middleware/AuthMiddleware')
+let cron = require('node-cron');
+const User = require('./models/User');
+
 let mongoURL = "mongodb+srv://anandaooit:test1234@mern-cluster.bl5c9.mongodb.net/?retryWrites=true&w=majority&appName=MERN-Cluster"
 mongoose.connect(mongoURL).then(()=> {
     console.log('connected to db');
     app.listen(process.env.PORT, ()=> {
         console.log('Server starts listening on localhost:'+process.env.PORT);
+        cron.schedule('*/4 * * * * *', async () => {
+            let user = await User.findByIdAndUpdate('66f2348903955dc44334060c', {
+                name : "mgmg " + Math.random()
+            })
+        });
     })
 })
 
