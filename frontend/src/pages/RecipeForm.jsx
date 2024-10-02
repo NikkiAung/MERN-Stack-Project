@@ -12,6 +12,8 @@ function RecipeFrom() {
   const [ingredients, setIngredients] = useState([]);
   const [newIngredient, setNewIngredient] = useState('');
   const [errors, setErrors] = useState([]);
+  const [file, setFile] = useState('');
+  const [preview, setPreview] = useState('');
   const addIngredient = () => {
     setIngredients(prev => [newIngredient,...prev]);
     setNewIngredient('');
@@ -43,14 +45,30 @@ function RecipeFrom() {
       const res = id 
       ? await axios.patch(`/api/recipes/${id}`, recipe) 
       : await axios.post('/api/recipes', recipe);
-
+      console.log(res);
       if(res.status === 200) {
         navigate('/')
       }
+      let formData = new FormData;
+      formData.set('photo',file);
+      let uploadRes = await axios.post(`/api/recipes/${res.data._id}/upload`,formData,{
+        headers : {
+          Accept : "multipart/form-data"
+        }
+      })
     } catch (error) {
       setErrors(Object.keys(error.response.data.error))
     }
+  }
+  const upload = (e) => {
+    let file = e.target.files[0]
+    setFile(file);
 
+    let fileReader = new FileReader;
+    fileReader.onload = (e) => {
+      setPreview(e.target.result);
+    }
+    fileReader.readAsDataURL(file);
   }
   return (
     <div className='mx-auto max-w-md border-2 border-white p-4'>
@@ -61,6 +79,8 @@ function RecipeFrom() {
               <li key={i} className='text-red-600 text-sm'>{error} is invalid value!</li>
             ))}
           </ul>
+          <input type="file" onChange={upload} />
+          {preview && <img src={preview} alt="preview"/>}
           <input value={title} onChange={e=> setTitle(e.target.value)} name='title' type="text" placeholder='Recipe Title' className='w-full p-1'/>
           <textarea value={description} onChange={e=> setDescription(e.target.value)} name="description" id="" placeholder='Recipe Description' rows="5" className='w-full p-1'></textarea>
           <div className='flex space-x-2'>
