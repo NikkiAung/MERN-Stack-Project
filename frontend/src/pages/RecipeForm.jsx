@@ -24,6 +24,8 @@ function RecipeFrom() {
         let res = await axios.get('/api/recipes/'+id);
 
         if(res.status === 200) {
+          setPreview(import.meta.env.VITE_BACKEND_URL+res.data.photo);
+          console.log(res);
           const {title, description, ingredients} = res.data;
           setTitle(title);
           setDescription(description);
@@ -45,7 +47,6 @@ function RecipeFrom() {
       const res = id 
       ? await axios.patch(`/api/recipes/${id}`, recipe) 
       : await axios.post('/api/recipes', recipe);
-      console.log(res);
       if(res.status === 200) {
         navigate('/')
       }

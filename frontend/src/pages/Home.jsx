@@ -15,7 +15,6 @@ function Home() {
   useEffect(()=> {
     let fetchRecipes = async () => {
       let response = await axios.get('/api/recipes?page='+page); 
-      console.log(response);
       if (response.status === 200) {
         let data = response.data;
         // console.log(data.data);
@@ -38,12 +37,14 @@ function Home() {
     }
   }
   return (
-    <div className='space-y-3'>
-        {!!recipes.length && recipes.map(recipe => (
-            <RecipeCard recipe={recipe} key={recipe._id} onDeleteFrontEnd={onDeleteFrontEnd}/>
-        ))}
-        {!!links && <Pagination page={page} links={links}/>} 
-    </div>
+    <>
+      <div className='grid grid-cols-3 space-y-3 space-x-3'>
+          {!!recipes.length && recipes.map(recipe => (
+              <RecipeCard recipe={recipe} key={recipe._id} onDeleteFrontEnd={onDeleteFrontEnd}/>
+          ))}
+      </div>
+      {!!links && <Pagination page={page} links={links}/>}
+    </>
   )
 }
 
