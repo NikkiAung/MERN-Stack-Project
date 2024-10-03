@@ -12,6 +12,7 @@ const AuthMiddleware = require('./Middleware/AuthMiddleware')
 let cron = require('node-cron');
 const User = require('./models/User');
 const nodemailer = require("nodemailer");
+const ejs = require('ejs');
 let mongoURL = "mongodb+srv://anandaooit:test1234@mern-cluster.bl5c9.mongodb.net/?retryWrites=true&w=majority&appName=MERN-Cluster"
 mongoose.connect(mongoURL).then(()=> {
     console.log('connected to db');
@@ -32,7 +33,11 @@ app.use(cors( {
     credentials : true
 } ));
 app.use(cookieParser());
+app.set('view engine', 'ejs');
+app.set('views', './views');
+
 app.get('/', (req, res)=> {
+    // return res.render('email')
     return res.json({hello:'hello'})
 })
 
@@ -45,8 +50,7 @@ app.get('/set-cookie',(req,res)=>{
     return res.send('Cookie alr set!')
 })
 
-app.get('/send-email', async (req, res) => {
-    // Looking to send emails in production? Check out our Email API/SMTP product!
+app.get('/send-email', (req, res) => {
     var transport = nodemailer.createTransport({
         host: "sandbox.smtp.mailtrap.io",
         port: 2525,
@@ -56,14 +60,16 @@ app.get('/send-email', async (req, res) => {
         }
     });
 
-    const info = await transport.sendMail({
-    from: 'mgmg@gmail.com', // sender address
-    to: "nikkiaung@gmail.com", // list of receivers
-    subject: "testing", // Subject line
-    html: "<b>Hello world?</b>", // html body
-    });
+    ejs.renderFile('./views/email.ejs',{name : 'mgmg'}, async (err , dataString ) => {
+        const info = await transport.sendMail({
+            from: 'mgmg@gmail.com', // sender address
+            to: "nikkiaung@gmail.com", // list of receivers
+            subject: "testing", // Subject line
+            html: dataString, // html body
+            });
+            console.log("Message sent: %s", info.messageId);
+    })
 
-    console.log("Message sent: %s", info.messageId);
     return res.send('email alr sent');
 })
 
