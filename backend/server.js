@@ -50,17 +50,24 @@ app.get('/set-cookie',(req,res)=>{
     return res.send('Cookie alr set!')
 })
 
-app.get('/send-email', (req, res) => {
-    sendEmail({
-        view : 'email',
-        data : {
-            name : 'Mg Mg'
-        },
-        from: 'mgmg@gmail.com',
-        to : "nikkiaung@gmail.com",
-        subject: "testing",
-    })
-    return res.send('email alr sent');
+app.get('/send-email', async (req, res) => {
+    try {
+        await sendEmail({
+            view : 'email',
+            data : {
+                name : 'Mg Mg'
+            },
+            from: 'mgmg@gmail.com',
+            to : "nikkiaung@gmail.com",
+            subject: "testing",
+        })
+        return res.send('email alr sent');
+    } catch (error) {
+        res.status(500).json({
+            message : error.message,
+            status : 500
+        })
+    }
 })
 
 app.get('/get-cookie',(req, res)=>{
