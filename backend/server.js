@@ -53,7 +53,7 @@ app.get('/set-cookie',(req,res)=>{
 app.get('/send-email', async (req, res) => {
     try {
         await sendEmail({
-            view : 'email',
+            view : 'test',
             data : {
                 name : 'Mg Mg'
             },
